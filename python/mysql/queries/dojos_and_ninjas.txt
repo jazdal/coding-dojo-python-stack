@@ -1,0 +1,59 @@
+INSERT INTO dojos (name)
+VALUES ('Konohagakure');
+
+INSERT INTO dojos (name)
+VALUES ('Sunagakure');
+
+INSERT INTO dojos (name)
+VALUES ('Sunagakure');
+
+DELETE FROM dojos
+WHERE id > 0;
+
+INSERT INTO dojos (name)
+VALUES ('Cobra Kai');
+
+INSERT INTO dojos (name)
+VALUES ('Eagle Fang');
+
+INSERT INTO dojos (name)
+VALUES ('Miyagi-Do');
+
+INSERT INTO ninjas (first_name, last_name, age, dojo_id)
+VALUES ('Robby', 'Keene', 21, 5);
+
+INSERT INTO ninjas (first_name, last_name, age, dojo_id)
+VALUES ('Raeven', 'Chase', 23, 5);
+
+INSERT INTO ninjas (first_name, last_name, age, dojo_id)
+VALUES ('Tory', 'Nichols', 20, 5);
+
+INSERT INTO ninjas (first_name, last_name, age, dojo_id)
+VALUES ('Johnny', 'Lawrence', 55, 6);
+
+INSERT INTO ninjas (first_name, last_name, age, dojo_id)
+VALUES ('Miguel', 'Diaz', 15, 6);
+
+INSERT INTO ninjas (first_name, last_name, age, dojo_id)
+VALUES ('Devon', 'Lee', 22, 6);
+
+INSERT INTO ninjas (first_name, last_name, age, dojo_id)
+VALUES ('Daniel', 'LaRusso', 50, 7);
+
+INSERT INTO ninjas (first_name, last_name, age, dojo_id)
+VALUES ('Samantha', 'LaRusso', 16, 7);
+
+INSERT INTO ninjas (first_name, last_name, age, dojo_id)
+VALUES ('Eli', 'Moskowitz', 19, 7);
+
+SELECT first_name, last_name, name AS dojo_name FROM ninjas
+JOIN dojos ON ninjas.dojo_id = dojos.id
+WHERE dojo_id = 5;
+
+SELECT first_name, last_name, name AS dojo_name FROM ninjas
+JOIN dojos ON ninjas.dojo_id = dojos.id
+WHERE dojo_id = 7;
+
+SELECT name FROM dojos
+JOIN ninjas ON dojos.id = ninjas.dojo_id
+WHERE ninjas.id = 9;
