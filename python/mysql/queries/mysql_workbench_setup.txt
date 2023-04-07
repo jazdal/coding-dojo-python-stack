@@ -1,0 +1,17 @@
+USE sakila;
+
+-- CREATE (INSERT)
+INSERT INTO actor (first_name, last_name)
+VALUES ('Keanu', 'Reeves');
+
+-- READ (SELECT)
+SELECT * FROM actor;
+
+-- UPDATE (UPDATE)
+UPDATE actor
+SET first_name = 'KEANU', last_name = 'REEVES'
+WHERE actor_id = 201;
+
+-- DELETE (DELETE)
+DELETE FROM actor
+WHERE actor_id = 201;
