@@ -28,6 +28,16 @@ def show_user_profile(username, id):
 def repeat(num, word):
     return (str(word) + ' ') * int(num)
 
+@app.route('/lists')
+def render_lists():
+    student_info = [
+        {'name': 'Michael', 'age': 35}, 
+        {'name': 'John', 'age': 30}, 
+        {'name': 'Mark', 'age': 25}, 
+        {'name': 'KB', 'age': 27}
+    ]
+    return render_template("lists.html", random_numbers = [3, 1, 5], students = student_info)
+
 @app.route('/<path:invalid_route>')
 def invalid_route(invalid_route):
     return f'Sorry! No response. Try again.'
