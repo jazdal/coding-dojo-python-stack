@@ -1,0 +1,19 @@
+h1 {
+    width: 25vw;
+    padding: 4vh;
+    margin: 4vh 34vw;
+    text-align: center;
+    font-size: 2.5vw;
+}
+
+table {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-collapse: collapse;
+}
+
+td {
+    width: 7rem;
+    height: 7rem;
+}
