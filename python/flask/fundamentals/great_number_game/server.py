@@ -7,6 +7,8 @@ app.secret_key = 'great_number_game'
 def index():
     if 'secret_num' not in session:
         session['secret_num'] = random.randint(1, 100)
+    elif session['secret_num'] == 0:
+        session['secret_num'] = random.randint(1, 100)
     return render_template('index.html', secret_num = int(session['secret_num']))
 
 @app.route('/guess', methods=['POST'])
@@ -29,8 +31,17 @@ def lose_the_game():
 
 @app.route('/clear_session')
 def clear_cookie():
-    session.clear()
+    session['secret_num'] = 0
+    session['attempts'] = 0
     return redirect('/')
+
+@app.route('/leaderboard', methods=['POST'])
+def show_leaderboard():
+    if 'leaderboard' not in session:
+        session['leaderboard'] = [{'name': request.form['winner_name'], 'attempts': session['attempts']}]
+    else:
+        session['leaderboard'].append({'name': request.form['winner_name'], 'attempts': session['attempts']})
+    return render_template('leaderboard.html', leaderboard = session['leaderboard'])
 
 if __name__ == "__main__":      
     app.run(debug = True)
