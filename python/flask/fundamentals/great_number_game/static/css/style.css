@@ -1,0 +1,51 @@
+#card-container {
+    display: flex;
+    justify-content: center;
+}
+
+#card-1, #miss-card, #correct-card {
+    padding: 1rem;
+    width: 20rem;
+    box-shadow: 2px 4px 5px gray;
+}
+
+#correct-card {
+    height: 15rem;
+    background-color: green;
+    color: yellow;
+    font-weight: bold;
+}
+
+#correct-txt {
+    margin-top: 1rem;
+}
+
+#card-1 {
+    background-color: darkslategray;
+    color: goldenrod;
+}
+
+#miss-card {
+    height: 15rem;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
+
+#miss-txt {
+    margin-top: 4rem;
+}
+
+#submit-btn {
+    width: 5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background-color: goldenrod;
+    color: black;
+    font-weight: bold;
+}
+
+#submit-btn:active {
+    background-color: darkgoldenrod;
+    box-shadow: none;
+}
