@@ -26,6 +26,8 @@ This is a simple guide I made for creating a Flask project template with the Boo
 
     pipenv install flask
 
+In order to successfully install Flask, your project folder needs to be located in the same drive as your Python files and pipenv. Otherwise, you will get error messages, and Flask won't be installed.
+
 You can confirm that Flask is installed after you see two files created in your Flask project folder: *Pipfile* and *Pipfile.lock*. Pipfile contains the packages installed, whereas Pipfile.lock contains the specific details on what version is being used.
 
 6. Inside the *templates* subfolder, create an *index.html* file with the following boilerplate code, which you can later modify. This already includes the CDN (Content Delivery Network) links to the Bootstrap CSS and JS settings that will allow the use of Bootstrap features in the project:
