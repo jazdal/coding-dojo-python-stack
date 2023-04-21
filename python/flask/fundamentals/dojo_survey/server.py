@@ -17,14 +17,17 @@ def get_info():
     session['language'] = request.form['language']
     print(session['language'])
 
+    session['snack'] = request.form.getlist('snack')
+    print(*session['snack'])
+
     session['comments'] = request.form['comments']
     print(session['comments'])
 
-    return redirect('/')
+    return redirect('/result')
 
 @app.route('/result')
 def show_info():
-    return render_template('show.html', username = session['username'], useremail = session['useremail'])
+    return render_template('result.html', username = session['username'], location = session['location'], language = session['language'], snacks = session['snack'], comments = session['comments'])
 
 if __name__ == "__main__":      
     app.run(debug = True)
