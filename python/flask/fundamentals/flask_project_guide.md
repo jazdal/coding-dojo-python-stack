@@ -1,19 +1,19 @@
-# FLASK AND BOOTSTRAP PROJECT SETUP GUIDE
+# PYTHON / FLASK / BOOTSTRAP / SQL FULL-STACK PROJECT SETUP GUIDE
 ### Personal Notes by: Jasper Dalawangbayan
 
-This is a simple guide I made for creating a Flask project template with the Bootstrap library for web development, based on my learnings in the *Coding Dojo Python Web Development* Bootcamp.
+This is a simple guide I made for creating a full-stack Python / Flask / Bootstrap / SQL project template for web development, based on my learnings in the *Coding Dojo Python Web Development* Bootcamp.
 
 ### Recommended Tools:
 - Visual Studio Code (VS Code)
 - The latest version of Python
 
-1. *If you haven't done so yet:* Install the virtual environment tool (pipenv) using pip. Typing the following command in the terminal will globally install the virtual environment tool *pipenv*, so you only need to do this ONCE for all your Flask projects, and never again:
+1. *If you haven't done so yet:* Install the virtual environment tool *pipenv* using pip. Typing the following command in the terminal will globally install the virtual environment tool *pipenv*, so you only need to do this ONCE for all your projects, and never again:
 
     pip install pipenv
 
-2. Create a folder for your Flask project.
+2. Create a folder for your project.
 
-3. Inside your Flask project folder, create the following subfolders:
+3. Inside your project folder, create the following subfolders:
     - templates
     - static
 
@@ -22,11 +22,11 @@ This is a simple guide I made for creating a Flask project template with the Boo
     - img
     - js
 
-5. Navigate into your Flask project folder in the terminal. Then type the following command in the terminal to install Flask (you need to do this for every Flask project you create):
+5. Navigate into your project folder in the terminal. Then type the following command in the terminal to install Flask and PyMySQL (you need to do this for every new project you create):
 
-    pipenv install flask
+    pipenv install PyMySQL flask
 
-In order to successfully install Flask, your project folder needs to be located in the same drive as your Python files and pipenv. Otherwise, you will get error messages, and Flask won't be installed.
+In order to successfully install PyMySQL and Flask, your project folder needs to be located in the same drive as your Python files and pipenv. Otherwise, you will get error messages, and PyMySQL and Flask won't be installed.
 
 You can confirm that Flask is installed after you see two files created in your Flask project folder: *Pipfile* and *Pipfile.lock*. Pipfile contains the packages installed, whereas Pipfile.lock contains the specific details on what version is being used.
 
@@ -56,16 +56,110 @@ You can confirm that Flask is installed after you see two files created in your 
 </html>
 ```
 
-7. Inside your Flask project folder, create a *server.py* file, and include the following code:
+7. Inside your project folder, create a *mysqlconnection.py* file, and include the following code:
+
+```python
+# a cursor is the object we use to interact with the database
+import pymysql.cursors
+
+# this class will give us an instance of a connection to our database
+class MySQLConnection:
+    def __init__(self, db):
+        # change the user and password as needed
+        connection = pymysql.connect(host = 'localhost', 
+                                    user = 'root', 
+                                    password = 'root', 
+                                    db = db, 
+                                    charset = 'utf8mb4', cursorclass = pymysql.cursors.DictCursor, autocommit = True)
+        # establish the connection to the database
+        self.connection = connection
+
+    # the method to query the database
+    def query_db(self, query, data = None):
+        with self.connection.cursor() as cursor:
+            try:
+                query = cursor.mogrify(query, data)
+                print("Running Query:", query)
+
+                cursor.execute(query, data)
+                if query.lower().find("insert") >= 0:
+                    # INSERT queries will return the ID NUMBER of the row inserted
+                    self.connection.commit()
+                    return cursor.lastrowid
+
+                elif query.lower().find("select") >= 0:
+                    # SELECT queries will return the data from the database as a LIST OF DICTIONARIES
+                    result = cursor.fetchall()
+                    return result
+
+                else:
+                    # UPDATE and DELETE queries will return nothing
+                    self.connection.commit()
+
+            except Exception as e:
+                # if the query fails the method will return FALSE
+                print("Something went wrong", e)
+                return False
+            
+            finally:
+                # close the connection
+                self.connection.close()
+
+# connectToMySQL receives the database we're using and uses it to create an instance of MySQLConnection
+def connectToMySQL(db):
+    return MySQLConnection(db)
+```
+
+8. Inside your project folder, create a class that is modeled after your SQL table using Python OOP. Example code below *(friend.py)*:
+
+```python
+# import the function that will return an instance of a connection
+from mysqlconnection import connectToMySQL
+
+# model the class after the friend table from our database
+class Friend:
+    def __init__( self , data ):
+        self.id = data['id']
+        self.first_name = data['first_name']
+        self.last_name = data['last_name']
+        self.occupation = data['occupation']
+        self.created_at = data['created_at']
+        self.updated_at = data['updated_at']
+
+    # Now we use class methods to query our database
+    @classmethod
+    def get_all(cls):
+        query = "SELECT * FROM friends;"
+
+        # make sure to call the connectToMySQL function with the schema you are targeting.
+        results = connectToMySQL('first_flask').query_db(query)
+
+        # Create an empty list to append our instances of friends
+        friends = []
+
+        # Iterate over the db results and create instances of friends with cls.
+        for friend in results:
+            friends.append( cls(friend) )
+        return friends
+```
+
+9. Inside your project folder, create a *server.py* file, and include the following code:
 
 ```python
 from flask import Flask, render_template, request, redirect, session
+
+# import the class from friend.py
+from friend import Friend
+
 app = Flask(__name__)
 app.secret_key = 'keep it secret, keep it safe' # modify your secret key accordingly         
 
 # The following sample code blocks need to be created for every route. You may include optional parameters and arguments into the functions as necessary:
 @app.route('/')                 
 def index():
+    # call the get all classmethod to get all friends
+    friends = Friend.get_all()
+    print(friends)
     return render_template('index.html')
 
 # The following code block is included if your project has a form for user input and registration:
@@ -88,11 +182,11 @@ if __name__ == "__main__":
     app.run(debug = True)
 ```
 
-8. To run the Flask project, navigate to the Flask project folder in the terminal and type the following commands:
+10. To run the Flask project, navigate to the Flask project folder in the terminal and type the following commands:
 
     pipenv shell
     python server.py
 
-9. To test that your project is working, open the web browser and go to *localhost:5000*, and type in any specific routes you made in your code.
+11. To test that your project is working, open the web browser and go to *localhost:5000*, and type in any specific routes you made in your code.
 
-10. To stop the server / virtual environment from running, press *Ctrl-C*, then type *exit* in the terminal.
+12. To stop the server / virtual environment from running, press *Ctrl-C*, then type *exit* in the terminal.

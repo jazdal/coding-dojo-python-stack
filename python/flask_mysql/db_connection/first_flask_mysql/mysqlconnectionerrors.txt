@@ -1,0 +1,15 @@
+Error 1: Generated after changing user
+RuntimeError
+RuntimeError: 'cryptography' package is required for sha256_password or caching_sha2_password auth methods
+
+Error 2: Generated after changing password
+OperationalError
+pymysql.err.OperationalError: (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+
+Error 3: Generated after changing database name
+OperationalError
+pymysql.err.OperationalError: (1049, "Unknown database 'database'")
+
+Error 4: Generated after removing value from "if query.lower().find("insert"):"
+TypeError
+TypeError: 'NoneType' object is not iterable
