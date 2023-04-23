@@ -12,7 +12,7 @@ def index():
     # call the get all classmethod to get all friends
     friends = Friend.get_all()
     print(friends)
-    return render_template('index.html')
+    return render_template('index.html', all_friends = friends)
 
 # The following code block is included if your project has a form for user input and registration:
 @app.route('/users', methods=['POST'])
