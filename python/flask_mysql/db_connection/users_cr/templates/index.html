@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+        <title>Read (All)</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>All Users</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for one_user in all_users %}
+                    <tr>
+                        <td>{{ one_user.id }}</td>
+                        <td>{{ one_user.first_name }}</td>
+                        <td>{{ one_user.last_name }}</td>
+                        <td>{{ one_user.email }}</td>
+                        <td>{{ one_user.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class="fs-5" href="/users/new">Add a New User</a>
+        </div>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    </body>
+</html>
