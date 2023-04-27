@@ -33,14 +33,20 @@
         </div>
         <div class="container">
             <h1>Add a Friend</h1>
-            <form action="/create_friend" method="POST">
-                <label for="fname">First Name:</label>
-                <input type="text" name="fname" placeholder="First Name">
-                <label for="lname">Last Name:</label>
-                <input type="text" name="lname" placeholder="Last Name">
-                <label for="occ">Occupation:</label>
-                <input type="text" name="occ" placeholder="Occupation">
-                <input type="submit" value="Add Friend">
+            <form class="row" action="/create_friend" method="POST">
+                <label for="fname" class="col-sm-2 col-form-label">First Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="mb-3 form-control" name="fname" placeholder="First Name">
+                </div>
+                <label for="lname" class="col-sm-2 col-form-label">Last Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="mb-3 form-control" name="lname" placeholder="Last Name">
+                </div>
+                <label for="occ" class="col-sm-2 col-form-label">Occupation:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="occ" placeholder="Occupation">
+                </div>
+                <input type="submit" class="btn btn-primary" value="Add Friend">
             </form>
         </div>
 
