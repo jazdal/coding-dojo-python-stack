@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+        <title>Edit</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="fs-1 fw-bold">Edit User {{ user.id }}</p>
+                <a class="fs-3" href="/users">Home</a>
+            </div>
+            <form action="/users/edit/{{ user.id }}" method="POST">
+                <label for="first_name" class="form-label">First Name:</label>
+                <input type="text" class="mb-3 form-control" name="fname" placeholder="First name here" value="{{ user.first_name }}">
+                <label for="last_name" class="form-label">Last Name:</label>
+                <input type="text" class="mb-3 form-control" name="lname" placeholder="Last name here" value="{{ user.last_name }}">
+                <label for="email" class="form-label">Email:</label>
+                <input type="text" class="mb-3 form-control" name="email" placeholder="Email address here" value="{{ user.email }}">
+                <div class="d-flex align-items-center">
+                    <input type="submit" class="me-5 btn btn-primary shadow" value="Update">
+                    <a class="fs-4" href="/users/{{ user.id }}">Show User</a>
+                </div>
+            </form>
+        </div>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    </body>
+</html>

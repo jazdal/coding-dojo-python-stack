@@ -9,8 +9,8 @@
     </head>
     <body>
         <div class="container">
-            <h1>All Users</h1>
-            <table class="table table-striped">
+            <p class="mb-4 fs-1 fw-bold">All Users</p>
+            <table class="table table-bordered table-striped shadow">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -18,21 +18,28 @@
                         <th>Last Name</th>
                         <th>Email</th>
                         <th>Created At</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-group-divider">
                     {% for one_user in all_users %}
                     <tr>
                         <td>{{ one_user.id }}</td>
                         <td>{{ one_user.first_name }}</td>
                         <td>{{ one_user.last_name }}</td>
                         <td>{{ one_user.email }}</td>
-                        <td>{{ one_user.created_at }}</td>
+                        <td>{{ one_user.created_at.strftime("%B %d, %Y") }}</td>
+                        <td class="d-flex align-items-center justify-content-evenly">
+                            <a href="/users/{{ one_user.id }}">Show</a>
+                            <a href="/users/edit/{{ one_user.id }}">Edit</a>
+                            <a href="/users/destroy/{{ one_user.id }}">Delete</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            <a class="fs-5" href="/users/new">Add a New User</a>
+            <br>
+            <a class="fs-4" href="/users/new">Add a New User</a>
         </div>
 
         <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>

@@ -5,12 +5,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-        <title>Read (All)</title>
+        <title>Create</title>
     </head>
     <body>
         <div class="container">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="fs-1">Add a New User</p>
+                <p class="fs-1 fw-bold">Add a New User</p>
                 <a class="fs-3" href="/users">Home</a>
             </div>
             <form action="/users/new" method="POST">
@@ -20,7 +20,7 @@
                 <input type="text" class="mb-3 form-control" name="lname" placeholder="Last name here">
                 <label for="email" class="form-label">Email:</label>
                 <input type="text" class="mb-3 form-control" name="email" placeholder="Email address here">
-                <input type="submit" class="btn btn-outline-primary" value="Create">
+                <input type="submit" class="btn btn-primary shadow" value="Create">
             </form>
         </div>
 

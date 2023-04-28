@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+        <title>Read (One)</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="fs-1 fw-bold">User {{ user.id }}</p>
+                <a class="fs-3" href="/users">Home</a>
+            </div>
+            <table class="table shadow">
+                <tbody>
+                    <tr>
+                        <th scope="row">Full Name:</th>
+                        <td><span class="me-1">{{ user.first_name }}</span>{{ user.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email:</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Created On:</th>
+                        <td>{{ user.created_at.strftime("%B %d, %Y") }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Last Updated On:</th>
+                        <td>{{ user.updated_at.strftime("%B %d, %Y at %I:%M %p") }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <span class="fs-4"><a class="me-3" href="/users/edit/{{ user.id }}">Edit</a> | <a class="ms-3" href="/users/destroy/{{ user.id }}">Delete</a></span>
+        </div>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    </body>
+</html>
