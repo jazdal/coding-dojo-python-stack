@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burgers</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <p class="fs-1 fw-bold">{{ restaurant.name }} Burgers</p>
+            <button class="btn btn-warning shadow" onclick="location.href='/'">Home</button>
+        </div>
+        <br>
+        <table class="table table-striped border shadow">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Bun</th>
+                    <th scope="col">Meat</th>
+                    <th scope="col">Calories</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                {% for one_burger in burgers %}
+                <tr>
+                    <td>{{ one_burger.id }}</td>
+                    <td>{{ one_burger.name }}</td>
+                    <td>{{ one_burger.bun }}</td>
+                    <td>{{ one_burger.meat }}</td>
+                    <td>{{ one_burger.calories }}</td>
+                    <td><button class="btn btn-danger shadow" onclick="location.href='/burgers/destroy/{{ one_burger.id }}'">Delete Burger</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <button class="btn btn-warning shadow" onclick="location.href='/new_burger'">Add a Burger</button>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>    
+</body>
+</html>

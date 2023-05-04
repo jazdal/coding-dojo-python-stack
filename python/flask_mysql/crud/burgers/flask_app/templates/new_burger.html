@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Burgers</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <p class="fs-1 fw-bold">Add a Burger</p>
+        </div>
+        <form action="/new/burger" method="POST">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="mb-3 form-control" name="name" placeholder="Burger name here">
+            <label for="bun" class="form-label">Bun:</label>
+            <input type="text" class="mb-3 form-control" name="bun" placeholder="Type of bun here">
+            <label for="meat" class="form-label">Meat:</label>
+            <input type="text" class="mb-3 form-control" name="meat" placeholder="Type of meat here">
+            <label for="calories" class="form-label">Calories:</label>
+            <input type="number" class="mb-3 form-control" name="calories" placeholder="How many calories?">
+            <label for="restaurant" class="form-label">Restaurant:</label>
+            <select class="form-select" name="restaurant_id" title="Restaurants">
+                <option selected>Choose Restaurant</option>
+                {% for one_restaurant in all_restaurants %}
+                <option value="{{ one_restaurant.id }}">{{ one_restaurant.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <input type="submit" class="btn btn-warning shadow" value="Add">
+        </form>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

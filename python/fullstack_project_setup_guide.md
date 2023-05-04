@@ -104,7 +104,7 @@ class MySQLConnection:
         with self.connection.cursor() as cursor:
             try:
                 query = cursor.mogrify(query, data)
-                print("Running Query:", query)
+                print(f'Running Query: {query}')
                 cursor.execute(query, data)
 
                 if query.lower().find("insert") >= 0:
@@ -123,7 +123,7 @@ class MySQLConnection:
 
             except Exception as e:
                 # if the query fails the method will return FALSE
-                print("Something went wrong", e)
+                print(f'Something went wrong, {e}')
                 return False
             
             finally:
@@ -155,13 +155,13 @@ from flask_app.config.mysqlconnection import connectToMySQL
 
 # model the class after the user table from MySQL database
 class User:
-    def __init__( self , data ):
-        self.id = data['id']
-        self.first_name = data['first_name']
-        self.last_name = data['last_name']
-        self.email = data['email']
-        self.created_at = data['created_at']
-        self.updated_at = data['updated_at']
+    def __init__(self , db_data):
+        self.id = db_data['id']
+        self.first_name = db_data['first_name']
+        self.last_name = db_data['last_name']
+        self.email = db_data['email']
+        self.created_at = db_data['created_at']
+        self.updated_at = db_data['updated_at']
 
     # class method to add a user to the database (CREATE)
     @classmethod
@@ -178,8 +178,7 @@ class User:
         results = connectToMySQL('users_schema').query_db(query)
 
         # Create an empty list to append our instances of users, and iterate over the db results and create instances of users with cls.
-        users = [cls(user) for user in results]
-        return users
+        return [cls(user) for user in results]
     
     # class method to retrieve one user from the database (READ)
     @classmethod

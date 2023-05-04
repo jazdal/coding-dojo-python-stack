@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Restaurant</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <p class="fs-1 fw-bold">Add a Restaurant</p>
+            <button class="btn btn-warning shadow" onclick="location.href='/'">Home</button>
+        </div>
+        <form action="/new/restaurant" method="POST">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="mb-3 form-control" name="name" placeholder="Restaurant name here">
+            <input type="submit" class="btn btn-warning shadow" value="Add">
+        </form>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
