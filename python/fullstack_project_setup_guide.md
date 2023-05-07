@@ -29,10 +29,12 @@ Download and install these tools first prior to starting a project. As a pre-req
 
     pip install pipenv
 
-2. Using MySQL, create a schema and ERD for your project. Afterwards, forward-engineer the schema.
-
-3. Create a folder for your project.
+2. Create a folder for your project.
     > project_name
+
+3. Using MySQL, create a schema and ERD for your project. Afterwards, forward-engineer the schema. Create a *schema* folder inside your project folder and save your MySQL schema/ERD there.
+    > project_name
+        > schema
 
 4. Navigate into your project folder in the terminal. Then type the following command in the terminal to install PyMySQL, Flask, and Flask-Bcrypt (you need to do this for every new project you create):
 
@@ -47,6 +49,9 @@ Please note that if you are using Git, every time you clone your project reposit
 5. Inside your project folder, create a subfolder called *flask_app*:
     > project_name
         > flask_app
+        > schema
+            > project_name.mwb
+            > project_name.sql
         > Pipfile
         > Pipfile.lock
 
@@ -54,6 +59,9 @@ Please note that if you are using Git, every time you clone your project reposit
     > project_name
         > flask_app
             > __init__.py
+        > schema
+            > project_name.mwb
+            > project_name.sql
         > Pipfile
         > Pipfile.lock
 
@@ -74,6 +82,9 @@ app.secret_key = "Put your secret key here"
             > static
             > templates
             > __init__.py
+        > schema
+            > project_name.mwb
+            > project_name.sql
         > Pipfile
         > Pipfile.lock
 
@@ -100,7 +111,7 @@ class MySQLConnection:
         self.connection = connection
 
     # the method to query the database
-    def query_db(self, query, data = None):
+    def query_db(self, query:str, data:dict=None):
         with self.connection.cursor() as cursor:
             try:
                 query = cursor.mogrify(query, data)
@@ -144,6 +155,9 @@ def connectToMySQL(db):
             > static
             > templates
             > __init__.py
+        > schema
+            > project_name.mwb
+            > project_name.sql
         > Pipfile
         > Pipfile.lock
 
@@ -155,27 +169,28 @@ from flask_app.config.mysqlconnection import connectToMySQL
 
 # model the class after the user table from MySQL database
 class User:
-    def __init__(self , db_data):
-        self.id = db_data['id']
-        self.first_name = db_data['first_name']
-        self.last_name = db_data['last_name']
-        self.email = db_data['email']
-        self.created_at = db_data['created_at']
-        self.updated_at = db_data['updated_at']
+    def __init__(self , data):
+        db = "users_schema"
+        self.id = data['id']
+        self.first_name = data['first_name']
+        self.last_name = data['last_name']
+        self.email = data['email']
+        self.created_at = data['created_at']
+        self.updated_at = data['updated_at']
 
     # class method to add a user to the database (CREATE)
     @classmethod
     def create(cls, data):
         query = "INSERT INTO users (first_name, last_name, email) VALUES (%(fname)s, %(lname)s, %(email)s);"
         # data is a dictionary that will be passed into the save method from server.py
-        return connectToMySQL('users_schema').query_db(query, data)
+        return connectToMySQL(cls.db).query_db(query, data)
     
     # class method to retrieve all users from the database (READ)
     @classmethod
     def read_all(cls):
         query = "SELECT * FROM users;"
         # make sure to call the connectToMySQL function with the schema you are targeting.
-        results = connectToMySQL('users_schema').query_db(query)
+        results = connectToMySQL(cls.db).query_db(query)
 
         # Create an empty list to append our instances of users, and iterate over the db results and create instances of users with cls.
         return [cls(user) for user in results]
@@ -184,20 +199,20 @@ class User:
     @classmethod
     def read_one(cls, data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
-        result = connectToMySQL('users_schema').query_db(query, data)
+        result = connectToMySQL(cls.db).query_db(query, data)
         return cls(result[0])
     
     # class method to update a user in the database (UPDATE)
     @classmethod
     def update(cls, data):
         query = "UPDATE users SET first_name = %(fname)s, last_name = %(lname)s, email = %(email)s WHERE id = %(id)s;"
-        return connectToMySQL('users_schema').query_db(query, data)
+        return connectToMySQL(cls.db).query_db(query, data)
     
     # class method to delete a user from the database (DESTROY)
     @classmethod
     def destroy(cls, data):
         query = "DELETE FROM users WHERE id = %(id)s;"
-        return connectToMySQL('users_schema').query_db(query, data)
+        return connectToMySQL(cls.db).query_db(query, data)
 ```
 
     > project_name
@@ -286,12 +301,12 @@ def delete_user(id):
 11. Inside your project folder, create a *server.py* file, and type the following Python code and save:
 
 ```python (server.py)
-from flask_app.controllers import users
 from flask_app import app
+from flask_app.controllers import users
 
 # This code block enables automatic reloading of the server whenever you make changes to your code while the server is running:
 if __name__ == "__main__":      
-    app.run(debug = True)
+    app.run(debug=True)
 ```
 
     > project_name

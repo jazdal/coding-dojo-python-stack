@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dojo Show</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="main p-4">
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card bg-light  bg-gradient shadow">
+                        <div class="card-body">
+                            <div class="mb-5 d-flex align-items-center justify-content-between">
+                                <p class="card-title fs-1 fw-bold">{{ dojo.name }} Ninjas</p>
+                                <button class="btn btn-warning bg-gradient shadow fs-5 fw-semibold" onclick="location.href='/'">Home</button>
+                            </div>
+                            <table class="table table-light table-striped table-hover shadow">
+                                <thead>
+                                    <tr class="table-active">
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Age</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                {% for ninja in ninjas %}
+                                    <tr>
+                                        <td>{{ ninja.first_name }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>    
+</body>
+</html>

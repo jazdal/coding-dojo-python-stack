@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dojos</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="main p-4">
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card bg-light  bg-gradient shadow">
+                        <div class="card-body">
+                            <h1 class="mb-5 card-title fw-bold">New Dojo</h1>
+                            <form action="/dojos" method="POST">
+                                <div class="row mb-3">
+                                    <label for="dojo_name" class="col-sm-2 col-form-label fs-5  fw-semibold">Name:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control fs-5" name="dojoname" placeholder="Type Dojo Name Here">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="submit" class="btn btn-success bg-gradient shadow fs-5 fw-semibold" value="Create">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card bg-light bg-gradient shadow">
+                        <div class="card-body">
+                            <h1 class="mb-5 card-title fw-bold">All Dojos</h1>
+                            <ul class="mb-3 list-group list-group-flush border">
+                                {% for dojo in dojos %}
+                                <li class="list-group-item fs-5">{{ dojo.name }}</li>
+                                {% endfor %}
+                            </ul>
+                            <button class="btn btn-warning bg-gradient shadow fs-5 fw-semibold" onclick="location.href='/ninjas'">Add Ninja</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>    
+</body>
+</html>
