@@ -5,12 +5,12 @@ from flask_app.models.burger import Burger
 
 @app.route('/')
 def show():
-    return render_template('index.html', all_restaurants = Restaurant.show_all())
+    return render_template('index.html', all_restaurants = Restaurant.get_all())
 
 @app.route('/burgers/<id>')
 def show_burgers(id):
     data = {"id": id}
-    return render_template('burgers.html', burgers = Burger.show_burgers_from_restaurants(data), restaurant = Restaurant.show_one(data))
+    return render_template('burgers.html', restaurants = Restaurant.get_burgers_from_restaurant(data), one_restaurant = Restaurant.get_one(data))
 
 @app.route('/new_restaurant')
 def restaurant_form():
@@ -28,12 +28,10 @@ def add_restaurant():
 @app.route('/new/burger', methods=['POST'])
 def add_burger():
     Burger.create(request.form)
-    print(request.form)
     return redirect('/')
 
 @app.route('/burgers/destroy/<id>')
 def delete_burger(id):
     data = {"id": id}
-    Burger.destroy(data)
-    print(id)
+    Burger.delete(data)
     return redirect('/')

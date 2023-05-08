@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="d-flex align-items-center justify-content-between">
-            <p class="fs-1 fw-bold">{{ restaurant.name }} Burgers</p>
+            <p class="fs-1 fw-bold">{{ one_restaurant.name }} Burgers</p>
             <button class="btn btn-warning shadow" onclick="location.href='/'">Home</button>
         </div>
         <br>
@@ -27,14 +27,14 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                {% for one_burger in burgers %}
+                {% for burger in restaurants.burgers %}
                 <tr>
-                    <td>{{ one_burger.id }}</td>
-                    <td>{{ one_burger.name }}</td>
-                    <td>{{ one_burger.bun }}</td>
-                    <td>{{ one_burger.meat }}</td>
-                    <td>{{ one_burger.calories }}</td>
-                    <td><button class="btn btn-danger shadow" onclick="location.href='/burgers/destroy/{{ one_burger.id }}'">Delete Burger</button></td>
+                    <td>{{ burger.id }}</td>
+                    <td>{{ burger.name }}</td>
+                    <td>{{ burger.bun }}</td>
+                    <td>{{ burger.meat }}</td>
+                    <td>{{ burger.calories }}</td>
+                    <td><button class="btn btn-danger shadow" onclick="location.href='/burgers/destroy/{{ burger.id }}'">Delete Burger</button></td>
                 </tr>
                 {% endfor %}
             </tbody>

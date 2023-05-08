@@ -1,7 +1,8 @@
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask_app.models import restaurant
+from flask_app.models import topping
 
 class Burger:
+    db = "burgers_schema"
     def __init__(self, db_data):
         self.id = db_data['id']
         self.name = db_data['name']
@@ -10,42 +11,45 @@ class Burger:
         self.calories = db_data['calories']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
+        self.toppings = []
     
     @classmethod
     def create(cls, data):
-        query = "INSERT INTO burgers (name, bun, meat, calories, restaurant_id) VALUES (%(name)s, %(bun)s, %(meat)s, %(calories)s, %(restaurant_id)s);"
-        return connectToMySQL('burgers_schema').query_db(query, data)
+        query = """
+                INSERT INTO burgers 
+                (name, bun, meat, calories, restaurant_id) 
+                VALUES (%(name)s, %(bun)s, %(meat)s, %(calories)s, %(restaurant_id)s);
+                """
+        return connectToMySQL(cls.db).query_db(query, data)
     
     @classmethod
-    def show_all(cls):
+    def get_all(cls):
         query = "SELECT * FROM burgers;"
-        results = connectToMySQL('burgers_schema').query_db(query)
+        results = connectToMySQL(cls.db).query_db(query)
         return [cls(burger) for burger in results]
     
     @classmethod
-    def show_burgers_from_restaurants(cls, data):
-        query = "SELECT * FROM burgers LEFT JOIN restaurants ON burgers.restaurant_id = restaurants.id WHERE restaurants.id = %(id)s;"
-        results = connectToMySQL('burgers_schema').query_db(query, data)
-        burger_data = []
-        for burger in results:
-            burger_dict = {
-                "id": burger['id'], 
-                "name": burger['name'], 
-                "bun": burger['bun'], 
-                "meat": burger['meat'], 
-                "calories": burger['calories'], 
-                "restaurant_id": burger['restaurant_id'], 
-                "created_at": burger['created_at'], 
-                "updated_at": burger['updated_at'], 
-                "restaurantid": burger['restaurants.id'], 
-                "restaurant_name": burger['restaurants.name'], 
-                "restaurant_created_at": burger['restaurants.created_at'], 
-                "restaurant_updated_at": burger['restaurants.updated_at']
+    def get_burger_with_toppings(cls, data):
+        query = """
+                SELECT * FROM burgers 
+                LEFT JOIN add_ons 
+                ON add_ons.burger_id = burgers.id 
+                LEFT JOIN toppings 
+                ON add_ons.topping_id = toppings.id 
+                WHERE burgers.id = %(id)s;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        burger = cls(results[0])
+        for row in results:
+            topping_data = {
+                "id": row["toppings.id"], 
+                "topping_name": row["topping_name"], 
+                "created_at": row["toppings.created_at"], 
+                "updated_at": row["toppings.updated_at"]
             }
-            burger_data.append(burger_dict)
-        return burger_data
+            burger.toppings.append(topping.Topping(topping_data))
+        return burger
     
     @classmethod
-    def destroy(cls, data):
+    def delete(cls, data):
         query = "DELETE FROM burgers WHERE id = %(id)s;"
-        return connectToMySQL('burgers_schema').query_db(query, data)
+        connectToMySQL(cls.db).query_db(query, data)
