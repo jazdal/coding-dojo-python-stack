@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+</head>
+<body>
+    <div class="container text-center">
+        <div class="col-lg-3 card shadow">
+            <form action="/process" method="POST">
+                <input type="hidden" name="which_form" value="update">
+                <input type="hidden" name="id" value="{{ id }}">
+                <div class="mb-3">
+                    <label for="">Pizza Type</label>
+                    <input type="text" name="pizza_type">
+                </div>
+                <div class="mb-3">
+                    <label for="">Pizza Crust</label>
+                    <input type="text" name="pizza_crust">
+                </div>
+                <div class="mb-3">
+                    <label for="">Pizza Size</label>
+                    <input type="text" name="pizza_size">
+                </div>
+                <div class="mb-3">
+                    <label for="">Pizza Sauce</label>
+                    <input type="text" name="pizza_sauce">
+                </div>
+                <div class="mb-3">
+                    <label for="">Toppings</label>
+                    <input type="text" name="amount_of_toppings">
+                </div class="mb-3">
+                <input type="submit" class="mb-3 btn btn-dark shadow" value="Update">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -25,8 +25,7 @@ class MySQLConnection:
                     return cursor.lastrowid
             
                 elif query.lower().find("select") >= 0:
-                    result = cursor.fetchall()
-                    return result
+                    return cursor.fetchall()
             
                 else:
                     self.connection.commit()

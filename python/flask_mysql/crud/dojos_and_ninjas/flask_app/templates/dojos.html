@@ -40,7 +40,7 @@
                             <h1 class="mb-5 card-title fw-bold">All Dojos</h1>
                             <ul class="mb-3 list-group list-group-flush border">
                                 {% for dojo in dojos %}
-                                <li class="list-group-item fs-5">{{ dojo.name }}</li>
+                                <li class="list-group-item fs-5"><a href="/dojos/{{ dojo.id }}">{{ dojo.name }}</a></li>
                                 {% endfor %}
                             </ul>
                             <button class="btn btn-warning bg-gradient shadow fs-5 fw-semibold" onclick="location.href='/ninjas'">Add Ninja</button>

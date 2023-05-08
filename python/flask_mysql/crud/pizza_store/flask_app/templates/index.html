@@ -5,10 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    {{ bootstrap.load_css() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 </head>
 <body>
-    <div class="container">
+    <div class="p-3 container text-center">
+        <div class="p-3 col-md-3 card shadow">
+            <form action="/process" method="POST">
+                <input type="hidden" name="which_form" value="create">
+                <select name="customer_id">
+                    {% for customer in customers %}
+                    <option value="{{ customer.id }}">{{ customer.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="mb-3">
+                    <label for="">Pizza Type</label>
+                    <input type="text" name="pizza_type">
+                </div>
+                <div class="mb-3">
+                    <label for="">Pizza Crust</label>
+                    <input type="text" name="pizza_crust">
+                </div>
+                <div class="mb-3">
+                    <label for="">Pizza Size</label>
+                    <input type="text" name="pizza_size">
+                </div>
+                <div class="mb-3">
+                    <label for="">Pizza Sauce</label>
+                    <input type="text" name="pizza_sauce">
+                </div>
+                <div class="mb-3">
+                    <label for="">Toppings</label>
+                    <input type="text" name="amount_of_toppings">
+                </div class="mb-3">
+                <input type="submit" class="mb-3 btn btn-dark shadow" value="Submit">
+            </form>
+        </div>
         <h1>My Pizzas</h1>
         <table class="table table-dark table-striped table-hover shadow">
             <thead>
@@ -18,6 +49,7 @@
                     <th>Size</th>
                     <th>Sauce</th>
                     <th>Amount of Toppings</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +60,10 @@
                     <td>{{ pizza.pizza_size }}</td>
                     <td>{{ pizza.pizza_sauce }}</td>
                     <td>{{ pizza.amount_of_toppings }}</td>
+                    <td class="d-flex align-items-center justify-content-evenly">
+                        <button class="btn btn-warning bg-gradient" onclick="location.href='/pizzas/{{ pizza.id }}'">Update</button>
+                        <button class="btn btn-danger bg-gradient" onclick="location.href='/pizzas/delete/{{ pizza.id }}'">Delete</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

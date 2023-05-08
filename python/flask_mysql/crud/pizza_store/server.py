@@ -1,5 +1,5 @@
 from flask_app import app
-from flask_app.controllers import pizzas
+from flask_app.controllers import pizzas, customers
 
 if __name__ == "__main__":
     app.run(debug=True)

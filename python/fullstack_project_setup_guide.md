@@ -8,16 +8,16 @@ The following programming languages and libraries are going to be used for this 
 - HTML5 (Frontend structure)
 - CSS3 (Frontend formatting)
 - JavaScript (Frontend scripting)
-- Bootstrap (CSS framework for frontend)
+- Bootstrap (CSS and JS framework for frontend)
 - Python (Backend scripting)
 - Flask with Jinja (Web application framework for Python)
-- MySQL (Backend non-relational database system)
+- MySQL (Backend relational database system)
 - PyMySQL (Interface for connecting to a MySQL database server from Python)
 
 ### Recommended Tools:
 Download and install these tools first prior to starting a project. As a pre-requisite, you need to be familiar with the use of these tools beforehand. If not, it is recommended that you first go through the documentation / tutorials / trainings on their usage as they won't be covered here:
 
-- [Visual Studio Code (VS Code)](https://code.visualstudio.com/) - Latest Version: v.1.77.3
+- [Visual Studio Code (VS Code)](https://code.visualstudio.com/) - Latest Version: v.1.78.0
 - [Python](https://www.python.org/downloads/) - Latest Version: v.3.11.3
 - [Boostrap](https://getbootstrap.com/docs/5.3/getting-started/download/) - Latest Version: v.5.3.0-alpha3
 - [MySQL Community Server (including MySQL Workbench)](https://dev.mysql.com/downloads/mysql/) - Latest Version: v.8.0.33
@@ -32,17 +32,23 @@ Download and install these tools first prior to starting a project. As a pre-req
 2. Create a folder for your project.
     > project_name
 
-3. Using MySQL, create a schema and ERD for your project. Afterwards, forward-engineer the schema. Create a *schema* folder inside your project folder and save your MySQL schema/ERD there.
+3. Create a *schema* folder inside your project.
     > project_name
         > schema
 
-4. Navigate into your project folder in the terminal. Then type the following command in the terminal to install PyMySQL, Flask, and Flask-Bcrypt (you need to do this for every new project you create):
+4. Using MySQL, create a schema and ERD for your project. Afterwards, forward-engineer the schema. Save your MySQL schema/ERD into the *schema* folder.
+    > project_name
+        > schema
+            > project_name.mwb
+            > project_name.sql
+
+5. Navigate into your project folder in the terminal. Then type the following command in the terminal to install PyMySQL, Flask, and Flask-Bcrypt (you need to do this for every new project you create):
 
     ...\project_name> pipenv install PyMySQL flask flask-bcrypt
 
 In order to successfully install everything, your project folder needs to be located in the same drive as your Python files and pipenv. Otherwise, you will get error messages, and the libraries won't be installed.
 
-You can confirm that PyMySQL Flask, and Flask-Brcypt are installed after you see two files created in your project folder: *Pipfile* and *Pipfile.lock*. Pipfile contains the packages installed, whereas Pipfile.lock contains the specific details on what version is being used.
+You can confirm that PyMySQL, Flask, and Flask-Brcypt are installed after you see two files created in your project folder: *Pipfile* and *Pipfile.lock*. Pipfile contains the packages installed, whereas Pipfile.lock contains the specific details on what version is being used.
 
 Please note that if you are using Git, every time you clone your project repository into another folder / computer, you will need to reinstall PyMySQL, Flask, and Flask-Bcrypt even though the project folder already includes the *Pipfile* and *Pipfile.lock* files.
 
@@ -69,6 +75,7 @@ Inside the *__init__.py* file, type the following Python code, and save:
 
 ```python (__init__.py)
 from flask import Flask
+
 app = Flask(__name__)
 app.secret_key = "Put your secret key here"
 ```
@@ -125,8 +132,7 @@ class MySQLConnection:
 
                 elif query.lower().find("select") >= 0:
                     # SELECT queries will return the data from the database as a LIST OF DICTIONARIES
-                    result = cursor.fetchall()
-                    return result
+                    return cursor.fetchall()
 
                 else:
                     # UPDATE and DELETE queries will return nothing
@@ -169,14 +175,31 @@ from flask_app.config.mysqlconnection import connectToMySQL
 
 # model the class after the user table from MySQL database
 class User:
+    db = "users_schema"
     def __init__(self , data):
-        db = "users_schema"
-        self.id = data['id']
-        self.first_name = data['first_name']
-        self.last_name = data['last_name']
-        self.email = data['email']
-        self.created_at = data['created_at']
-        self.updated_at = data['updated_at']
+        self.id = data["id"]
+        self.first_name = data["first_name"]
+        self.last_name = data["last_name"]
+        self.email = data["email"]
+        self.created_at = data["created_at"]
+        self.updated_at = data["updated_at"]
+
+    # class method to retrieve all users from the database (READ)
+    @classmethod
+    def get_all(cls):
+        query = "SELECT * FROM users;"
+        # make sure to call the connectToMySQL function with the schema you are targeting.
+        results = connectToMySQL(cls.db).query_db(query)
+
+        # Create an empty list to append our instances of users, and iterate over the db results and create instances of users with cls.
+        return [cls(user) for user in results]
+
+    # class method to retrieve one user from the database (READ)
+    @classmethod
+    def get_one(cls, data):
+        query = "SELECT * FROM users WHERE id = %(id)s;"
+        result = connectToMySQL(cls.db).query_db(query, data)
+        return cls(result[0])
 
     # class method to add a user to the database (CREATE)
     @classmethod
@@ -185,34 +208,17 @@ class User:
         # data is a dictionary that will be passed into the save method from server.py
         return connectToMySQL(cls.db).query_db(query, data)
     
-    # class method to retrieve all users from the database (READ)
-    @classmethod
-    def read_all(cls):
-        query = "SELECT * FROM users;"
-        # make sure to call the connectToMySQL function with the schema you are targeting.
-        results = connectToMySQL(cls.db).query_db(query)
-
-        # Create an empty list to append our instances of users, and iterate over the db results and create instances of users with cls.
-        return [cls(user) for user in results]
-    
-    # class method to retrieve one user from the database (READ)
-    @classmethod
-    def read_one(cls, data):
-        query = "SELECT * FROM users WHERE id = %(id)s;"
-        result = connectToMySQL(cls.db).query_db(query, data)
-        return cls(result[0])
-    
     # class method to update a user in the database (UPDATE)
     @classmethod
     def update(cls, data):
         query = "UPDATE users SET first_name = %(fname)s, last_name = %(lname)s, email = %(email)s WHERE id = %(id)s;"
-        return connectToMySQL(cls.db).query_db(query, data)
+        connectToMySQL(cls.db).query_db(query, data)
     
     # class method to delete a user from the database (DESTROY)
     @classmethod
-    def destroy(cls, data):
+    def delete(cls, data):
         query = "DELETE FROM users WHERE id = %(id)s;"
-        return connectToMySQL(cls.db).query_db(query, data)
+        connectToMySQL(cls.db).query_db(query, data)
 ```
 
     > project_name
@@ -231,8 +237,8 @@ class User:
 10. Inside the *controllers* subfolder, create a .py file named after the object that needs to be controlled in a plural form. As an example, *users.py*. Type the following Python code, and save:
 
 ```python (users.py)
-from flask_app import app
 from flask import render_template, redirect, request, session, flash
+from flask_app import app
 from flask_app.models.user import User
 
 # The following sample code blocks need to be created for every route. You may include optional parameters and arguments into the functions as necessary:
@@ -344,7 +350,7 @@ if __name__ == "__main__":
         > Pipfile.lock
         > server.py
 
-13. To enable the use of Boostrap even when offline, go to the [Bootstrap website](https://getbootstrap.com/docs/5.3/getting-started/download/), download and unzip the Compiled CSS and JS package, and copy the *bootstrap.css* and *bootstrap.js* files into the *static/css* subfolder and *static/js* subfolder, respectively. (Optional: You may also create your own *style.css* and *script.js* files if you need to add additional CSS settings and JS scripts for your project. Put the respective files in their allocated folders). 
+13. Go to the [Bootstrap website](https://getbootstrap.com/docs/5.3/getting-started/download/), download and unzip the Compiled CSS and JS package, and copy the *bootstrap.js* file into the *static/js* subfolder. (Optional: You may also create your own *style.css* and *script.js* files if you need to add additional CSS settings and JS scripts for your project. Put the respective files in their allocated folders). 
     > project_name
         > flask_app
             > config
@@ -355,7 +361,6 @@ if __name__ == "__main__":
                 > user.py
             > static
                 > css
-                    > bootstrap.css
                     > style.css
                 > img
                 > js
@@ -376,8 +381,8 @@ if __name__ == "__main__":
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Read (All)</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>Page Title</title>
+    {{ bootstrap.load_css() }}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>

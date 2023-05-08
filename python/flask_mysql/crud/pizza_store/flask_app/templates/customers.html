@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>All Customers</h1>
+    <div class="container">
+        {% for customer in customer_list %}
+            <h3>{{ customer.name }}</h3>
+            {% for pizza in customer.pizzas %}
+                <ul>
+                    <li>
+                        <h5>{{ pizza.pizza_type }}</h5>
+                    </li>
+                    <li>{{ pizza.pizza_crust}}</li>
+                    <li>{{ pizza.pizza_size }}</li>
+                    <li>{{ pizza.pizza_sauce }}</li>
+                    <li>{{ pizza.amount_of_toppings }}</li>
+                </ul>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</body>
+</html>
