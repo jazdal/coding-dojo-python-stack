@@ -22,6 +22,8 @@ Download and install these tools first prior to starting a project. As a pre-req
 - [Boostrap](https://getbootstrap.com/docs/5.3/getting-started/download/) - Latest Version: v.5.3.0-alpha3
 - [MySQL Community Server (including MySQL Workbench)](https://dev.mysql.com/downloads/mysql/) - Latest Version: v.8.0.33
 
+### Sample Project: Books
+
 ### Steps:
 
 **Part I: Backend**
@@ -30,17 +32,17 @@ Download and install these tools first prior to starting a project. As a pre-req
     pip install pipenv
 
 2. Create a folder for your project.
-    > project_name
+    > books
 
 3. Create a *schema* folder inside your project.
-    > project_name
+    > books
         > schema
 
 4. Using MySQL, create a schema and ERD for your project. Afterwards, forward-engineer the schema. Save your MySQL schema/ERD into the *schema* folder.
-    > project_name
+    > books
         > schema
-            > project_name.mwb
-            > project_name.sql
+            > books_schema.mwb
+            > books_schema.sql
 
 5. Navigate into your project folder in the terminal. Then type the following command in the terminal to install PyMySQL, Flask, and Flask-Bcrypt (you need to do this for every new project you create):
 
@@ -53,21 +55,21 @@ You can confirm that PyMySQL, Flask, and Flask-Brcypt are installed after you se
 Please note that if you are using Git, every time you clone your project repository into another folder / computer, you will need to reinstall PyMySQL, Flask, and Flask-Bcrypt even though the project folder already includes the *Pipfile* and *Pipfile.lock* files.
 
 5. Inside your project folder, create a subfolder called *flask_app*:
-    > project_name
+    > books
         > flask_app
         > schema
-            > project_name.mwb
-            > project_name.sql
+            > books_schema.mwb
+            > books_schema.sql
         > Pipfile
         > Pipfile.lock
 
 6. Create a *__init__.py* file inside the *flask_app* subfolder:
-    > project_name
+    > books
         > flask_app
             > __init__.py
         > schema
-            > project_name.mwb
-            > project_name.sql
+            > books_schema.mwb
+            > books_schema.sql
         > Pipfile
         > Pipfile.lock
 
@@ -81,7 +83,7 @@ app.secret_key = "Put your secret key here"
 ```
 
 7. Create the *config*, *controllers*, *models*, *static*, and *templates* subfolders inside the *flask_app* subfolder:
-    > project_name
+    > books
         > flask_app
             > config
             > controllers
@@ -90,8 +92,8 @@ app.secret_key = "Put your secret key here"
             > templates
             > __init__.py
         > schema
-            > project_name.mwb
-            > project_name.sql
+            > books_schema.mwb
+            > books_schema.sql
         > Pipfile
         > Pipfile.lock
 
@@ -152,7 +154,7 @@ def connectToMySQL(db):
     return MySQLConnection(db)
 ```
 
-    > project_name
+    > books
         > flask_app
             > config
                 > mysqlconnection.py
@@ -162,27 +164,26 @@ def connectToMySQL(db):
             > templates
             > __init__.py
         > schema
-            > project_name.mwb
-            > project_name.sql
+            > books_schema.mwb
+            > books_schema.sql
         > Pipfile
         > Pipfile.lock
 
-9. Inside the *models* subfolder, create a .py file that is modeled after your SQL table by using Python OOP. As an example, you may use the code below as reference *(user.py)* and copy / modify accordingly for your own project. You may remove the comment lines in the actual project. This is where the CRUD (Create, Read, Update, Destroy) functions for the project will be set up:
+9. Inside the *models* subfolder, create .py files that are modeled after your SQL tables. This is where the CRUD (Create, Read, Update, Destroy) functions for the project will be set up:
 
-```python (user.py)
+```python (author.py)
 # import the function that will return an instance of a connection
 from flask_app.config.mysqlconnection import connectToMySQL
 
 # model the class after the user table from MySQL database
 class User:
-    db = "users_schema"
+    db = "books_schema"
     def __init__(self , data):
         self.id = data["id"]
-        self.first_name = data["first_name"]
-        self.last_name = data["last_name"]
-        self.email = data["email"]
+        self.name = data["name"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
+        self.favorite_books = []
 
     # class method to retrieve all users from the database (READ)
     @classmethod

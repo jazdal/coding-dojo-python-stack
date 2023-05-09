@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Show</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="main p-4">
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card bg-light bg-gradient shadow">
+                        <div class="card-body">
+                            <h1 class="mb-5 card-title fw-bold">Title: {{ one_book.title }}</h1>
+                            <h2>Favorited By:</h2>
+                            <ul>
+                                {% for author in books.authors_favorite %}
+                                <li class="fs-4">{{ author.name }}</li>
+                                {% endfor %}
+                            </ul>
+                            <br>
+                            <button class="btn btn-warning bg-gradient shadow" onclick="location.href='/'">Home</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card bg-light bg-gradient shadow">
+                        <div class="card-body">
+                            <h1 class="mb-5 card-title fw-bold">Add Book's Favorite</h1>
+                            <form action="/books/{{ one_book.id }}" method="POST">
+                                <input type="hidden" name="book_id" value="{{ one_book.id }}">
+                                <div class="row mb-3">
+                                    <label for="author_name" class="col-sm-3 col-form-label fs-5 fw-semibold">Author:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-select fs-5 fw-semibold" name="author_id" title="Author Name">
+                                            {% for author in authors %}
+                                            <option value="{{ author.id }}">{{ author.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="submit" class="btn btn-success bg-gradient shadow fs-5 fw-semibold" value="Add">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
