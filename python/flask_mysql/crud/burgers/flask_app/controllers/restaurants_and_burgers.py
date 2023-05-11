@@ -18,7 +18,7 @@ def restaurant_form():
 
 @app.route('/new_burger')
 def burger_form():
-    return render_template('new_burger.html', all_restaurants = Restaurant.show_all())
+    return render_template('new_burger.html', all_restaurants = Restaurant.get_all())
 
 @app.route('/new/restaurant', methods=['POST'])
 def add_restaurant():
@@ -27,8 +27,10 @@ def add_restaurant():
 
 @app.route('/new/burger', methods=['POST'])
 def add_burger():
+    if not Burger.validate_burger(request.form):
+        return redirect("/new_burger")
     Burger.create(request.form)
-    return redirect('/')
+    return redirect("/")
 
 @app.route('/burgers/destroy/<id>')
 def delete_burger(id):
