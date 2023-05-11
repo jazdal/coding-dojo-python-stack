@@ -1,4 +1,4 @@
-# coding_dojo_python
+# coding-dojo-python-stack
 
 This is a learning repository for my **Coding Dojo Python / MySQL / Flask Full-Stack Course!**
 
