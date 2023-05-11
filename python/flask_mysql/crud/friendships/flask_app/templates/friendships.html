@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friendships</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <main class="main p-4">
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card bg-light  bg-gradient shadow">
+                        <div class="card-body">
+                            <div class="mb-5 d-flex align-items-center justify-content-between">
+                                <p class="card-title fs-1 fw-bold">Friendships</p>
+                            </div>
+                            <table class="table table-bordered table-light table-striped table-hover shadow">
+                                <thead>
+                                    <tr class="table-active">
+                                        <th scope="col">User</th>
+                                        <th scope="col">Friend</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                {% for person in friendships %}
+                                <tr>
+                                    <td>{{ person.user_fname }} {{ person.user_lname }}</td>
+                                    <td>{{ person.friend_fname }} {{ person.friend_lname }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card bg-light  bg-gradient shadow">
+                        <div class="card-body">
+                            <div class="mb-5 d-flex align-items-center justify-content-between">
+                                <p class="card-title fs-1 fw-bold">Add User</p>
+                            </div>
+                            <form action="/friendships" method="POST">
+                                <div class="row mb-3">
+                                    <label for="first_name" class="col-sm-3 col-form-label fs-5 fw-semibold">First Name:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control fs-5" name="first_name" placeholder="Enter First Name">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="last_name" class="col-sm-3 col-form-label fs-5 fw-semibold">Last Name:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control fs-5" name="last_name" placeholder="Enter Last Name">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9">
+                                        <input type="submit" class="btn btn-success bg-gradient shadow fs-5 fw-semibold" value="Add User">
+                                    </div>
+                                </div>
+                            </form>
+                            <hr>
+                            <div class="mb-5 d-flex align-items-center justify-content-between">
+                                <p class="card-title fs-1 fw-bold">Create Friendship</p>
+                            </div>
+                            <form action="/make_friends" method="POST">
+                                <div class="row mb-3">
+                                    <label for="user_name" class="col-sm-3 col-form-label fs-5 fw-semibold">User:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-select fs-5 fw-semibold" name="user_id" title="user_name">
+                                            {% for user in users %}
+                                            <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="user_name" class="col-sm-3 col-form-label fs-5 fw-semibold">Friend:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-select fs-5 fw-semibold" name="friend_id" title="friend_name">
+                                            {% for user in users %}
+                                            <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-9">
+                                        <input type="submit" class="btn btn-warning bg-gradient shadow fs-5 fw-semibold" value="Create">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>    
+</body>
+</html>

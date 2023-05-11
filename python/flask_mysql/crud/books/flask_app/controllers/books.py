@@ -14,19 +14,16 @@ def new_book():
 @app.route("/books/<id>", methods=['GET', 'POST'])
 def book_favorite(id):
     data = {"id": id}
+    
     if request.method == 'GET':
         books = Book.get_authors_favorite(data)
-        authors_with_favorites = []
-        for author in books.authors_favorite:
-            authors_with_favorites.append(author.name)
+        authors_with_favorites = [author.name for author in books.authors_favorite]
         
         authors = Author.get_all()
-        free_authors = []
-        for author in authors:
-            if author.name not in authors_with_favorites:
-                free_authors.append(author)
+        free_authors = [author for author in authors if author.name not in authors_with_favorites]
 
         return render_template("show_books.html", one_book = Book.get_one(data), books = books, authors = free_authors)
+    
     else:
         Author.add_favorite(request.form)
         return redirect(f"/books/{id}")

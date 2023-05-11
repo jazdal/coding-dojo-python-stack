@@ -17,7 +17,7 @@ The following programming languages and libraries are going to be used for this 
 ### Recommended Tools:
 Download and install these tools first prior to starting a project. As a pre-requisite, you need to be familiar with the use of these tools beforehand. If not, it is recommended that you first go through the documentation / tutorials / trainings on their usage as they won't be covered here:
 
-- [Visual Studio Code (VS Code)](https://code.visualstudio.com/) - Latest Version: v.1.78.0
+- [Visual Studio Code (VS Code)](https://code.visualstudio.com/) - Latest Version: v.1.78.1
 - [Python](https://www.python.org/downloads/) - Latest Version: v.3.11.3
 - [Boostrap](https://getbootstrap.com/docs/5.3/getting-started/download/) - Latest Version: v.5.3.0-alpha3
 - [MySQL Community Server (including MySQL Workbench)](https://dev.mysql.com/downloads/mysql/) - Latest Version: v.8.0.33
@@ -383,7 +383,7 @@ if __name__ == "__main__":
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Title</title>
-    {{ bootstrap.load_css() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
