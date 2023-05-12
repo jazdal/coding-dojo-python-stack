@@ -2,6 +2,7 @@ from flask_app import app
 from flask import render_template, redirect, request, session
 from flask_app.models.dojo import Dojo
 from flask_app.models.ninja import Ninja
+from markupsafe import escape
 
 @app.route('/')
 def reroute():
@@ -26,4 +27,4 @@ def new_ninja():
         return render_template('ninja_form.html', dojos = Dojo.get_all())
     else:
         Ninja.create(request.form)
-        return redirect(f"/dojos/{request.form['dojo_id']}")
+        return redirect(f"/dojos/{escape(request.form['dojo_id'])}")

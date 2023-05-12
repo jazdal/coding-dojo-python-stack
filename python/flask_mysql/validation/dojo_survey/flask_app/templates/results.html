@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dojo Survey Index</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <ul class="p-3 nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link active bg-warning bg-gradient shadow text-dark fs-5 fw-semibold" aria-current="page" href="/">Go Home</a>
+        </li>
+    </ul>
+<div class="p-4 container">
+        <div class="row">
+            {% for dojo in dojos %}
+            <div class="mb-3 col-lg-6">
+                <div class="card bg-light bg-gradient shadow">
+                    <div class="card-body">
+                        <h3 class="fw-bold">{{ dojo.name }}</h3>
+                        <hr>
+                        <div class="row">
+                            <p class="col-sm-5 fs-4 fw-bold">Dojo Location:</p>
+                            <p class="col-sm-7 fs-4 fw-semibold">{{ dojo.location }}</p>
+                        </div>
+                        <div class="row">
+                            <p class="col-sm-5 fs-4 fw-bold">Favorite Language:</p>
+                            <p class="col-sm-7 fs-4 fw-semibold">{{ dojo.language }}!!!</p>
+                        </div>
+                        <div class="row">
+                            <p class="col-sm-5 fs-4 fw-bold">Comment:</p>
+                            <p class="col-sm-7 fs-4 fw-semibold">{{ dojo.comment }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
