@@ -1,0 +1,8 @@
+.warning {
+    background-image: linear-gradient(goldenrod, yellow);
+}
+
+.error {
+    background-image: linear-gradient(red, tomato);
+    color: white;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Page</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="p-5 container">
+        <div class="row mt-5 mb-3">
+            <div class="col-sm-12">
+                {% if last_email == "None" %}
+                <p class="p-3 fw-semibold fs-5 fw-semibold bg-warning  bg-gradient shadow">You need to enter<br> a VALID email address! Thank you!</p>
+                {% else %}
+                <p class="p-3 fw-semibold fs-5 fw-semibold text-light bg-success  bg-gradient shadow">The email address you entered ({{ last_email.email }})<br> is a VALID email address! Thank you!</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="p-4 card bg-light bg-gradient shadow">
+                <div class="card-body">
+                    <h3 class="fw-bold text-decoration-underline">Email Addresses Entered:</h3>
+                    <hr>
+                    <table class="table table-borderless">
+                        {% for email in emails %}
+                        <tr class="fs-5 fw-semibold">
+                            <td>{{ email.email }}</td>
+                            <td>{{ email.created_at.strftime("%m/%d/%y %I:%M %p") }}</td>
+                            <td>{{ email.updated_at.strftime("%m/%d/%y %I:%M %p")}}</td>
+                            <td><button class="btn btn-danger bg-gradient shadow" onclick="location.href='/delete/{{ email.id }}'">Delete Email</button></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

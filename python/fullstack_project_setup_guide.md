@@ -77,7 +77,6 @@ Inside the *__init__.py* file, type the following Python code, and save:
 
 ```python (__init__.py)
 from flask import Flask
-
 app = Flask(__name__)
 app.secret_key = "Put your secret key here"
 ```
