@@ -170,19 +170,23 @@ def connectToMySQL(db):
 
 9. Inside the *models* subfolder, create .py files that are modeled after your SQL tables. This is where the CRUD (Create, Read, Update, Destroy) functions for the project will be set up:
 
-```python (author.py)
+```python (user.py)
+from flask import flash
 # import the function that will return an instance of a connection
 from flask_app.config.mysqlconnection import connectToMySQL
 
 # model the class after the user table from MySQL database
 class User:
-    db = "books_schema"
+    db = "users_schema"
     def __init__(self , data):
         self.id = data["id"]
-        self.name = data["name"]
+        self.first_name = data["first_name"]
+        self.last_name = data["last_name"]
+        self.email = data["email"]
+        self.password = data["password"]
+        self.confirm_password = data["confirm_password"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
-        self.favorite_books = []
 
     # class method to retrieve all users from the database (READ)
     @classmethod

@@ -1,0 +1,24 @@
+.first_name {
+    background-image: linear-gradient(red, pink);
+}
+
+.last_name {
+    background-image: linear-gradient(orangered, lightsalmon)
+}
+
+.birthday {
+    background-image: linear-gradient(yellow, yellowgreen)
+}
+
+.region {
+    background-image: linear-gradient(green, lightgreen)
+}
+
+.email {
+    background-image: linear-gradient(lightblue, skyblue)
+}
+
+.password {
+    background-image: linear-gradient(rebeccapurple, indigo);
+    color: white;
+}
