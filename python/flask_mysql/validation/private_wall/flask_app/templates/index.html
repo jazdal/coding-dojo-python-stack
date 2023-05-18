@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Registration</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="p-2 container">
+        <div class="row">
+            {% with messages = get_flashed_messages(with_categories = true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="shadow {{ category }}">
+                        <p class="fw-semibold fs-5 fw-semibold">{{ message }}</p>
+                    </div>
+                    {% endfor %}
+                    <hr>
+                {% endif %}
+            {% endwith %}
+            <div class="col-lg-6">
+                <div class="p-3 card bg-dark-subtle bg-gradient shadow">
+                    <h1 class="text-primary fw-bold">Registration</h1>
+                    <hr>
+                    <form action="/register" method="POST">
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label fs-4 fw-semibold">First Name:</label>
+                            <input type="text" class="form-control form-control-lg" name="first_name" placeholder="Enter First Name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label fs-4 fw-semibold">Last Name:</label>
+                            <input type="text" class="form-control form-control-lg" name="last_name" placeholder="Enter Last Name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label fs-4 fw-semibold">Email:</label>
+                            <input type="email" class="form-control form-control-lg" name="email" placeholder="Enter E-Mail Address">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label fs-4 fw-semibold">Password:</label>
+                            <input type="password" class="form-control form-control-lg" name="password" placeholder="Enter Password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label fs-4 fw-semibold">Confirm Password:</label>
+                            <input type="password" class="form-control form-control-lg" name="confirm_password" placeholder="Enter Confirm Password">
+                        </div>
+                        <hr>
+                        <input type="submit" class="btn btn-primary bg-gradient fs-5 fw-semibold" value="Register">
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="p-3 card bg-dark bg-gradient shadow">
+                    <h1 class="text-warning fw-bold">Login</h1>
+                    <hr class="text-warning">
+                    <form action="/login" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label fs-4 text-warning fw-semibold">Email:</label>
+                            <input type="email" class="form-control form-control-lg" name="email" placeholder="Enter E-Mail Address">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label fs-4 text-warning fw-semibold">Password:</label>
+                            <input type="password" class="form-control form-control-lg" name="password" placeholder="Enter Password">
+                        </div>
+                        <hr class="text-warning">
+                        <input type="submit" class="btn btn-warning bg-gradient fs-5 fw-semibold" value="Login">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

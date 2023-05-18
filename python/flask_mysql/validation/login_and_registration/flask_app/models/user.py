@@ -1,6 +1,3 @@
-from flask_app import app
-from flask_bcrypt import Bcrypt
-bcrypt = Bcrypt(app)
 from flask import flash
 import re
 from datetime import datetime

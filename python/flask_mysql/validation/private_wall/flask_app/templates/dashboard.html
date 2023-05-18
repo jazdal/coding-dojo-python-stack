@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wall One</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow">
+        <div class="container-fluid">
+            <span class="h2">CodingDojo Wall</span>
+            <div class="d-flex align-items-center justify-content-between">
+                <span class="me-5 h4">Welcome, {{ user.first_name }}!</span>
+                <button class="btn btn-warning bg-gradient shadow fs-5 fw-semibold" onclick="location.href='/logout'">Logout</button>
+            </div>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="p-5 col-lg-6 bg-success-subtle bg-gradient">
+            <h2 class="text-center">Message Wall</h2>
+            <p class="text-center fs-4"><span class="text-primary fw-bolder">{{ messages | length }}</span> message(s) for you</p>
+            <hr>
+            {% for message in messages %}
+            <div class="card mb-2 shadow">
+                <div class="card-header">
+                    <h4>{{ message.sender }} said (<span class="text-danger fw-bolder">{{ message.time_span() }}</span>):</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text fs-4 fw-semibold fst-italic">{{ message.content }}</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/destroy/message/{{ message.id }}" class="fs-5 text-decoration-none">Delete Message <img src="{{ url_for('static', filename='img/delete.svg') }}" class="ms-3" alt="delete_icon" width="40rem"></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="p-5 col-lg-6 bg-warning-subtle bg-gradient text-center">
+            <h2>Send Messages</h2>
+            <p class="fs-4">You have sent <span class="text-danger fw-bolder">{{ sent_messages | length }}</span> message(s) so far</p>
+            <hr>
+            {% for user in users %}
+                {% if user.id != session.user_id %}
+                    <form class="p-2" action="/post_message" method="post">
+                        <input type="hidden" name="sender_id" value="{{ session.user_id }}">
+                        <input type="hidden" name="receiver_id" value="{{ user.id }}">
+                        <div class="mb-2 d-flex align-items-center justify-content-between">
+                            <label for="receiver_id" class="me-3 fs-5 fw-semibold">{{ user.first_name }}:</label>
+                            <textarea class="form-control fs-5" name="content" id="" cols="30" rows="3" placeholder="Enter message here"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <input type="submit" value="Send" class="btn btn-warning bg-gradient shadow fs-5 fw-semibold">
+                        </div>
+                    </form>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
