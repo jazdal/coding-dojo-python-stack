@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="mb-3 navbar navbar-expand-lg bg-body-tertiary shadow">
+        <div class="container-fluid">
+            <span class="h2">Edit Recipe</span>
+            <div class="d-flex align-items-center justify-content-between">
+                <button class="me-5 btn btn-primary bg-gradient shadow fs-5 fw-semibold" onclick="location.href='/dashboard'">Dashboard</button>
+                <button class="btn btn-warning bg-gradient shadow fs-5 fw-semibold" onclick="location.href='/logout'">Logout</button>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            {% with messages = get_flashed_messages(with_categories = true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="shadow {{ category }}">
+                        <p class="fw-semibold fs-5 fw-semibold">{{ message }}</p>
+                    </div>
+                    {% endfor %}
+                    <hr>
+                {% endif %}
+            {% endwith %}
+        </div>
+        <div class="row">
+            <form action="/recipes/edit/{{ recipe.id }}" method="POST">
+                <table class="table table-success table-border shadow">
+                    <tbody>
+                        <tr>
+                            <td class="p-3">
+                                <label for="name" class="form-label fs-4 fw-semibold">Name:</label>
+                                <input type="text" class="form-control form-control-lg border-success" name="name" title="name" value="{{ recipe.name }}">
+                            </td>
+                            <td class="p-3">
+                                <label for="created_at" class="form-label fs-4 fw-semibold">Date Made On:</label>
+                                <input type="date" class="form-control form-control-lg border-success" name="created_at" title="created_at">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">
+                                <label for="description" class="form-label fs-4 fw-semibold">Description:</label>
+                                <textarea class="form-control form-control-lg border-success" rows="3" name="description" title="description">{{ recipe.description }}</textarea>
+                            </td>
+                            <td class="p-3">
+                                <label for="under_30_mins" class="form-label fs-4 fw-semibold">Under 30 Minutes?</label>
+                                <div class="mb-3 form-check fs-4">
+                                    <input class="form-check-input" type="radio" name="under_30_mins" title="1" value="1" checked>
+                                    <label class="form-check-label" for="1">Yes</label>
+                                </div>
+                                <div class="form-check fs-4">
+                                    <input class="form-check-input" type="radio" name="under_30_mins" title="0" value="0">
+                                    <label class="form-check-label" for="0">No</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">
+                                <label for="instructions" class="form-label fs-4 fw-semibold">Instructions:</label>
+                                <textarea class="form-control form-control-lg border-success" rows="4" name="instructions" title="instructions">{{ recipe.instructions }}</textarea>
+                            </td>
+                            <td class="p-3"></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3">
+                                <input type="submit" class="btn btn-success bg-gradient shadow fs-4 fw-semibold" value="Update">
+                            </td>
+                            <td class="p-3"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+</body>
+</html>
